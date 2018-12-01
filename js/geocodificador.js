@@ -2,7 +2,17 @@ geocodificadorModulo = (function () {
   var geocodificador // Geocodificador que dada una dirección devuelve una coordenada
   
     // Permite obtener las coordenadas y las usa con la función llamada por parámtero
-  function usaDireccion (direccion, funcionALlamar) {
+  function usaDireccion ( direccion, funcionALlamar) {
+  
+    geocodificador.geocode({'address' : direccion}, function(results,status) {
+      var lat = results[0].geometry.location.lat();
+      var long = results[0].geometry.location.lng();
+      var coordenadas = new google.maps.LatLng(lat,long);
+      if(status === 'OK') {
+        funcionALlamar( direccion , coordenadas );
+      };
+    });
+    
         /* Completar la función usaDireccion(dirección,funcionALlamar)
      para que se obtengan las coordenadas a partir de la dirección pasada por parámetro
      y que llame a la función pasada por parámetro con los siguientes parámetros
