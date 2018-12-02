@@ -4,12 +4,13 @@ streetViewModulo = (function () {
   function inicializar () {
         /* Completar la función inicializar()  que crea un panorama
         en una posición y lo muestra en la página. */
-       panorama = new google.maps.StreetViewPanorama(
-          $('#pano'),{
-            
-              position: posicionCentral,
-          
-          });
+       panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'),{
+          position: posicionCentral,
+          pov: {
+          heading: 20,
+          pitch: 1
+          }
+        });
 
   }
 
