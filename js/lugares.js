@@ -1,4 +1,5 @@
 lugaresModulo = (function () {
+ 
   var servicioLugares // Servicio para obtener lugares cercanos e información de lugares(como fotos, puntuación del lugar,etc).
 
     // Completa las direcciones ingresadas por el usuario a y establece los límites
@@ -11,11 +12,10 @@ lugaresModulo = (function () {
       center: mapa.center,
       bounds: posicionCentral,
       map: mapa,
-      strokeColor: 'transparent',
-      fillColor: 'transparent',
+      
     })
-    completando = new google.maps.places.Autocomplete(miDireccion);
-    completando.setBounds(limite.getBounds());
+    completado = new google.maps.places.Autocomplete(miDireccion);
+    completado.setBounds(limite.getBounds());
         /* Completar la función autocompletar(): autocompleta los 4 campos de texto de la
         página (las direcciones ingresables por el usuario).
         Para esto creá un círculo con radio de 20000 metros y usalo para fijar
@@ -25,10 +25,11 @@ lugaresModulo = (function () {
     // Inicializo la variable servicioLugares y llamo a la función autocompletar
   function inicializar () {
     servicioLugares = new google.maps.places.PlacesService(mapa)
+    
     autocompletar()
-  }
+  };
 
-   
+  
 
   function buscarCerca (posicion) {
 
@@ -37,16 +38,16 @@ lugaresModulo = (function () {
     //console.log(radio); 
     servicioLugares.nearbySearch({
       location: posicion,
-      radius: radio,
-      type: tipoDeLugar,
-    }, marcadorModulo.marcarLugares());
+      radius: $( '#radio' ).val(),
+      types: [$( '#tipoDeLugar' ).val()]
+    }, marcadorModulo.marcarLugares);
   
-
-    
-  }
-        /* Completar la función buscarCerca  que realice la búsqueda de los lugares
+       /* Completar la función buscarCerca  que realice la búsqueda de los lugares
     del tipo (tipodeLugar) y con el radio indicados en el HTML cerca del lugar
     pasado como parámetro y llame a la función marcarLugares. */
+  }
+   
+ 
 
   
   return {
@@ -54,3 +55,5 @@ lugaresModulo = (function () {
     buscarCerca
   }
 })()
+
+
