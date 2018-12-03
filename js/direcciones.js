@@ -93,36 +93,43 @@ direccionesModulo = (function () {
     // dependiendo de la formaDeIr que puede ser Caminando, Auto o Bus/Subterraneo/Tren
   function calcularYMostrarRutas () {
 
+    var origen =  $('#desde').val();
+    var destino = $( '#hasta' ).val();
+    var formaDeIr = [$( '#comoIr' ).val()];
+    var puntosIntermedios = $( '#puntosIntermedios' ).val();
+    var arrPuntosIntermedios = [];
+
+    for(var i=0; i<puntosIntermedios.length; i++){
+      if(puntosIntermedios.options[i].selected) {
+        arrPuntosIntermedios.push({
+          location: puntosIntermedios[i].value,
+          stopover: true,
+        });
+      };
+    };
+        
+    var pedido = {
+        origin: origen,
+        destination: destino,
+        travelMode: google.maps.DirectionsTravelMode[formaDeIr],
+        waypoints: arrPuntosIntermedios,
+      };
+     
+      servicioDirecciones.route(pedido,function(response, status)
+      {
+        console.log(pedido);
+        if (status == google.maps.DirectionsStatus.OK)
+        {
+          new google.maps.DirectionsRenderer({
+            map: mapa,
+            directions: response
+          });
+        }
+  });
+ 
         /* Completar la función calcularYMostrarRutas , que dependiendo de la forma en que el
          usuario quiere ir de un camino al otro, calcula la ruta entre esas dos posiciones
          y luego muestra la ruta. */
-        var desde = document.querySelector('#desde').value;
-        var hasta = document.querySelector('#hasta').value;
-        var modoViaje = document.querySelector('#comoIr').value;
-        var ptosIntermedios = document.querySelector('#puntosIntermedios');
-        var arrPtosIntermedios = [];
-        
-        for(var i=0; i<ptosIntermedios.length; i++){
-          if(ptosIntermedios.options[i].selected) {
-            arrPtosIntermedios.push({
-              location: ptosIntermedios[i].value,
-              stopover: true,
-            });
-          };
-        };
-
-        var requisitos = {
-          origin: desde,
-          destination: hasta,
-          travelMode: modoViaje,
-          waypoints: arrPtosIntermedios,
-        };  
-
-        servicioDirecciones.route(requisitos, function(result, status) {
-          if( status === 'OK' ) {
-            mostradorDirecciones.setDirections(result);
-          }
-        });         
   }
 
   return {
