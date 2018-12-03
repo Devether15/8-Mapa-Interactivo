@@ -96,18 +96,17 @@ direccionesModulo = (function () {
     var origen =  $('#desde').val();
     var destino = $( '#hasta' ).val();
     var formaDeIr = [$( '#comoIr' ).val()];
-    var puntosIntermedios = $( '#puntosIntermedios' ).val();
+    var puntosIntermedios = $( '#puntosIntermedios' );
     var arrPuntosIntermedios = [];
 
     for(var i=0; i<puntosIntermedios.length; i++){
-      if(puntosIntermedios.options[i].selected) {
         arrPuntosIntermedios.push({
           location: puntosIntermedios[i].value,
           stopover: true,
         });
-      };
+     
     };
-        
+        console.log(arrPuntosIntermedios);
     var pedido = {
         origin: origen,
         destination: destino,
